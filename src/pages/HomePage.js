@@ -15,12 +15,12 @@ function HomePage() {
       >
         <Grid container rowSpacing={4} columnSpacing={4} mt={2}>
           {jobs.slice(0, 5).map((job) => (
-            <Grid key={job.id} item xs={12} md={4} lg={4}>
+            <Grid key={job.id} item xs={12} sm={6} md={4} lg={4}>
               <JobCard job={job} />
             </Grid>
           ))}
         </Grid>
-        <Stack sx={{ mt: 2 }} spacing={2}>
+        <Stack sx={{ mt: 2, mb: 2 }} spacing={2}>
           <Pagination
             count={3}
             renderItem={(item) => <PaginationItem {...item} />}

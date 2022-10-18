@@ -1,0 +1,11 @@
+.paginationButtonStyle button:hover {
+  background-color: #b90000;
+}
+
+.paginationButtonStyle button:focus {
+  background-color: #b90000;
+}
+
+.paginationButtonStyle button:active {
+  background-color: #b90000;
+}

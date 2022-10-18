@@ -19,7 +19,7 @@ function JobCard({ job }) {
       }}
     >
       <CardContent sx={{ height: "250px" }}>
-        <Typography gutterBottom variant="subtitle1">
+        <Typography gutterBottom variant="body1">
           {job.title}
         </Typography>
         <Divider />
@@ -41,9 +41,6 @@ function JobCard({ job }) {
             />
           ))}
         </Stack>
-
-        <Typography gutterBottom variant="subtitle2"></Typography>
-
         <Typography gutterBottom variant="body2" component="div">
           {job.description}
         </Typography>

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useContext } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -9,6 +10,8 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import LoginIcon from "@mui/icons-material/Login";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import LoginModal from "./LoginModal";
+import { LoginModalContext } from "../App";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -50,8 +53,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function SearchJobBar() {
   const mobileMenuId = "primary-search-account-menu-mobile";
+
+  const { handleOpenLoginModal } = useContext(LoginModalContext);
 
   return (
     <Box
@@ -80,10 +85,15 @@ export default function PrimarySearchAppBar() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton size="large" color="inherit">
+            <IconButton
+              onClick={handleOpenLoginModal}
+              size="large"
+              color="inherit"
+            >
               <LoginIcon />
               <Typography sx={{ pl: 1 }}>Sign in</Typography>
             </IconButton>
+            <LoginModal />
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton

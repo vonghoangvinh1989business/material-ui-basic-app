@@ -56,15 +56,19 @@ function JobCard({ job }) {
       >
         <Button
           sx={{
-            color: "black",
-            backgroundColor: "orange",
+            color: "rgba(0, 0, 0, 0.87)",
+            backgroundColor: "rgb(255, 167, 38)",
             borderColor: "black",
-            fontSize: "12px",
-            padding: 0.5,
+            fontSize: "0.7rem",
+            padding: "0.5",
+            minWidth: "64px",
             ml: 2,
             mr: 2,
             position: "absolute",
             bottom: "15px",
+            "&:hover": {
+              backgroundColor: "rgb(245, 124, 0)",
+            },
           }}
           size="small"
         >

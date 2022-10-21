@@ -1,46 +1,27 @@
-import React, { useState, createContext } from "react";
+import React from "react";
 import { Routes, Route } from "react-router-dom";
-import SearchJobBar from "./components/SearchJobBar";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
+import LayoutPage from "./pages/LayoutPage";
 import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
 import "./App.css";
 
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-});
-
-export const LoginModalContext = createContext();
-
 function App() {
-  const [openLoginModal, setOpenLoginModal] = useState(false);
-  const handleOpenLoginModal = () => {
-    setOpenLoginModal(true);
-  };
-
-  const handleCloseLoginModal = () => {
-    setOpenLoginModal(false);
-  };
-
   return (
     <div>
-      <ThemeProvider theme={darkTheme}>
-        <CssBaseline />
-        <LoginModalContext.Provider
-          value={{
-            openLoginModal,
-            handleOpenLoginModal,
-            handleCloseLoginModal,
-          }}
-        >
-          <SearchJobBar />
-        </LoginModalContext.Provider>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-        </Routes>
-      </ThemeProvider>
+      <Routes>
+        <Route path="/" element={<LayoutPage />}>
+          <Route index element={<HomePage />} />
+          <Route path="login" element={<LoginPage />} />
+        </Route>
+        <Route
+          path="*"
+          element={
+            <main style={{ padding: "1rem" }}>
+              <p>There's nothing here!</p>
+            </main>
+          }
+        />
+      </Routes>
     </div>
   );
 }

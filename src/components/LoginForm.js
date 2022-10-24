@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { FormProvider, FTextField } from "./form";
 import { Stack, IconButton, InputAdornment, Button, Box } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import AuthContext from "../auth/AuthContext";
 
 function LoginForm() {
   const defaultValues = {
@@ -16,8 +18,16 @@ function LoginForm() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const navigate = useNavigate();
+  let from = navigate.state?.from?.path || "/";
+
+  // get auth context to use sign in function from auth provider
+  const auth = useContext(AuthContext);
+
+  // handle click on login button
+  const handleLogin = (formData) => {
+    auth.signin(formData.username);
+    navigate(from, { replace: true });
   };
 
   const style = {
@@ -40,7 +50,7 @@ function LoginForm() {
 
   return (
     <Box sx={style}>
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+      <FormProvider methods={methods} onSubmit={handleSubmit(handleLogin)}>
         <Stack spacing={3}>
           <FTextField sx={textFieldStyle} name="username" label="User name" />
           <FTextField

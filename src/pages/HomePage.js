@@ -27,7 +27,12 @@ function HomePage() {
   return (
     <div>
       <Container
-        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyItems: "center",
+        }}
       >
         <Grid container rowSpacing={2} columnSpacing={2} mt={2}>
           {currentJobData.map((job) => (
@@ -36,6 +41,7 @@ function HomePage() {
             </Grid>
           ))}
         </Grid>
+
         <Stack sx={{ mt: 2, mb: 2 }} spacing={2}>
           <Pagination
             className={"paginationButtonStyle"}

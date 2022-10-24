@@ -1,15 +1,24 @@
 import * as React from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { styled, alpha } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
+import AuthContext from "../auth/AuthContext";
+import MoreIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
 import LoginIcon from "@mui/icons-material/Login";
-import MoreIcon from "@mui/icons-material/MoreVert";
+import LogoutIcon from "@mui/icons-material/Logout";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { styled, alpha } from "@mui/material/styles";
+import {
+  Avatar,
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  InputBase,
+  Button,
+  Stack,
+} from "@mui/material";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -53,10 +62,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function SearchJobBar() {
   const mobileMenuId = "primary-search-account-menu-mobile";
+  const auth = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLoginButton = () => {
     navigate("/login");
+  };
+
+  const handleLogoutButton = () => {
+    auth.signout();
+    navigate("/");
   };
 
   return (
@@ -85,16 +100,54 @@ export default function SearchJobBar() {
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              onClick={handleLoginButton}
-              size="large"
-              color="inherit"
-            >
-              <LoginIcon />
-              <Typography sx={{ pl: 1 }}>Sign in</Typography>
-            </IconButton>
+
+          <Box
+            sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}
+          >
+            {auth.user ? (
+              <>
+                <Stack direction="row" spacing={1} sx={{ mr: 2 }}>
+                  <Avatar
+                    sx={{ bgcolor: "rgb(255, 167, 38)", width: 25, height: 25 }}
+                  >
+                    <AccountCircleIcon fontSize="small" />
+                  </Avatar>
+                  <Typography sx={{ textAlign: "center" }}>
+                    {auth.user}
+                  </Typography>
+                </Stack>
+
+                <Button
+                  onClick={handleLogoutButton}
+                  size="medium"
+                  color="inherit"
+                  startIcon={<LogoutIcon />}
+                >
+                  <Typography sx={{ textTransform: "capitalize" }}>
+                    Sign out
+                  </Typography>
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  onClick={handleLoginButton}
+                  size="medium"
+                  color="inherit"
+                  startIcon={<LoginIcon />}
+                >
+                  <Typography sx={{ textTransform: "capitalize" }}>
+                    Sign in
+                  </Typography>
+                </Button>
+              </>
+            )}
           </Box>
+
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <IconButton></IconButton>
+          </Box>
+
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"

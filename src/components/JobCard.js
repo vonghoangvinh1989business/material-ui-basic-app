@@ -51,6 +51,7 @@ function JobCard({ job }) {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          justifyContent: "center",
           position: "relative",
         }}
       >

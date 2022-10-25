@@ -41,4 +41,9 @@ const getSingleJobById = async (id) => {
   return jobs.find((job) => job.id === id);
 };
 
-export default { getAllJobs, getSingleJobById };
+const api = {
+  getAllJobs,
+  getSingleJobById,
+};
+
+export default api;

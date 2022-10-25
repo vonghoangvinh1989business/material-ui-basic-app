@@ -1,26 +1,25 @@
-import React from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import React, { useContext } from "react";
+import { Routes, Route } from "react-router-dom";
 import LayoutPage from "./pages/LayoutPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
+import JobDetailsDialog from "./components/JobDetailsDialog";
+import LoginDialog from "./components/LoginDialog";
 import "./App.css";
+import AuthContext from "./auth/AuthContext";
 
 function App() {
-  const location = useLocation();
+  const auth = useContext(AuthContext);
 
   return (
     <div>
-      <Routes
-        location={
-          location.state?.backgroundLocation
-            ? location.state.backgroundLocation
-            : location
-        }
-      >
+      <Routes>
         <Route path="/" element={<LayoutPage />}>
           <Route index element={<HomePage />} />
           <Route path="login" element={<LoginPage />} />
+          <Route path="jobs/:id" element={<JobDetailsDialog />} />
         </Route>
+
         <Route
           path="*"
           element={
@@ -29,6 +28,12 @@ function App() {
             </main>
           }
         />
+
+        {auth.user ? (
+          <Route path="/job/:id" element={<JobDetailsDialog />} />
+        ) : (
+          <Route path="/job/:id" element={<LoginDialog />} />
+        )}
       </Routes>
     </div>
   );

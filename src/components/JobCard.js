@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -7,8 +8,20 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
+import AuthContext from "../auth/AuthContext";
 
 function JobCard({ job }) {
+  const auth = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLearnMoreClick = (jobId) => {
+    if (auth.user) {
+      navigate(`/job/${jobId}`);
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <Card
       sx={{
@@ -72,6 +85,7 @@ function JobCard({ job }) {
             },
           }}
           size="small"
+          onClick={() => handleLearnMoreClick(job.id)}
         >
           LEARN MORE
         </Button>

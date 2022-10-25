@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import AuthContext from "../auth/AuthContext";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
@@ -64,14 +64,25 @@ export default function SearchJobBar() {
   const mobileMenuId = "primary-search-account-menu-mobile";
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
+  let [searchParams, setSearchParams] = useSearchParams();
+  const q = searchParams.get("q");
 
+  // handle login button
   const handleLoginButton = () => {
     navigate("/login");
   };
 
+  // handle logout button
   const handleLogoutButton = () => {
     auth.signout();
     navigate("/");
+  };
+
+  // handle submit search
+  const handleSubmitSearch = (event) => {
+    event.preventDefault();
+    let q = new FormData(event.target).get("q");
+    setSearchParams({ q: q });
   };
 
   return (
@@ -90,15 +101,20 @@ export default function SearchJobBar() {
           >
             Job Routing
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
+
+          <Box component="form" onSubmit={handleSubmitSearch}>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+                name="q"
+                defaultvalues={q ?? undefined}
+              />
+            </Search>
+          </Box>
           <Box sx={{ flexGrow: 1 }} />
 
           <Box

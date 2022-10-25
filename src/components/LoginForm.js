@@ -6,11 +6,12 @@ import { Stack, IconButton, InputAdornment, Button, Box } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import AuthContext from "../auth/AuthContext";
+import * as myConstant from "../constant";
 
 function LoginForm() {
   const defaultValues = {
-    username: "hoangvinh",
-    password: "123456",
+    username: myConstant.TEST_USERNAME,
+    password: myConstant.TEST_PASSWORD,
   };
 
   const methods = useForm({ defaultValues });

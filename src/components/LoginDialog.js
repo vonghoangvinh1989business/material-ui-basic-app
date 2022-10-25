@@ -3,8 +3,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Box, Typography, Avatar } from "@mui/material";
-import LoginForm from "./LoginForm";
 import { useNavigate } from "react-router-dom";
+import LoginForm from "./LoginForm";
 
 export default function LoginDialog() {
   const navigate = useNavigate();

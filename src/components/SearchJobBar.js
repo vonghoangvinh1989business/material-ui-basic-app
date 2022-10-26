@@ -2,12 +2,13 @@ import * as React from "react";
 import { useContext } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import AuthContext from "../auth/AuthContext";
+import { styled, alpha } from "@mui/material/styles";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { styled, alpha } from "@mui/material/styles";
+
 import {
   Avatar,
   AppBar,
@@ -18,6 +19,8 @@ import {
   InputBase,
   Button,
   Stack,
+  MenuItem,
+  Menu,
 } from "@mui/material";
 
 const Search = styled("div")(({ theme }) => ({
@@ -61,7 +64,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchJobBar() {
-  const mobileMenuId = "primary-search-account-menu-mobile";
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
   let [searchParams, setSearchParams] = useSearchParams();
@@ -85,6 +87,82 @@ export default function SearchJobBar() {
     setSearchParams({ q: q });
   };
 
+  // handle mobile menu
+  const mobileMenuId = "primary-search-account-menu-mobile";
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(false);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      {auth.user ? (
+        <div>
+          <MenuItem>
+            <Avatar
+              sx={{
+                bgcolor: "rgb(255, 167, 38)",
+                width: 25,
+                height: 25,
+                mr: 1,
+              }}
+            >
+              <AccountCircleIcon fontSize="small" />
+            </Avatar>
+            <p>{auth.user}</p>
+          </MenuItem>
+          <MenuItem>
+            <Button
+              startIcon={<LogoutIcon />}
+              onClick={handleLogoutButton}
+              size="small"
+              color="inherit"
+            >
+              <Typography sx={{ textTransform: "capitalize" }}>
+                Sign out
+              </Typography>
+            </Button>
+          </MenuItem>
+        </div>
+      ) : (
+        <div>
+          <MenuItem>
+            <Button
+              onClick={handleLoginButton}
+              size="medium"
+              color="inherit"
+              startIcon={<LoginIcon />}
+            >
+              <Typography sx={{ textTransform: "capitalize" }}>
+                Sign in
+              </Typography>
+            </Button>
+          </MenuItem>
+        </div>
+      )}
+    </Menu>
+  );
+
   return (
     <Box
       sx={{
@@ -92,7 +170,13 @@ export default function SearchJobBar() {
       }}
     >
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar
+          sx={{
+            maxWidth: "1140px",
+            margin: "auto",
+            width: "100%",
+          }}
+        >
           <Typography
             variant="h6"
             noWrap
@@ -170,6 +254,7 @@ export default function SearchJobBar() {
               aria-label="show more"
               aria-controls={mobileMenuId}
               aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
               color="inherit"
             >
               <MoreIcon />
@@ -177,6 +262,7 @@ export default function SearchJobBar() {
           </Box>
         </Toolbar>
       </AppBar>
+      {renderMobileMenu}
     </Box>
   );
 }

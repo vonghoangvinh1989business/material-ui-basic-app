@@ -9,3 +9,10 @@
 .paginationButtonStyle button:active {
   background-color: #b90000;
 }
+
+@media screen and (max-width: 900px) {
+  .gridJobCard {
+    display: flex;
+    justify-content: center;
+  }
+}

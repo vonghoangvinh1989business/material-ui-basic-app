@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
+import Grid from "@mui/material/Grid";
 import AuthContext from "../auth/AuthContext";
 
 function JobCard({ job }) {
@@ -37,23 +37,24 @@ function JobCard({ job }) {
         </Typography>
         <Divider />
 
-        <Stack
-          direction="row"
-          spacing={0.5}
-          sx={{
-            mt: 1,
-            mb: 1,
-          }}
-        >
+        <Grid container sx={{ textAlign: "left", mt: 0.5 }} spacing={2}>
           {job.skills.slice(0, 4).map((skill) => (
             <Chip
               key={`${job.id}-${skill}`}
               size="small"
               label={skill}
-              sx={{ backgroundColor: "red", color: "white", fontSize: "8px" }}
+              sx={{
+                backgroundColor: "red",
+                color: "white",
+                fontSize: "8px",
+                mt: 1,
+                mb: 1,
+                ml: 1,
+                spacing: 1,
+              }}
             />
           ))}
-        </Stack>
+        </Grid>
         <Typography gutterBottom variant="body2" component="div">
           {job.description}
         </Typography>

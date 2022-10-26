@@ -9,6 +9,7 @@ import "../css/HomePage.css";
 import api from "../data/fetchData";
 
 function HomePage() {
+  const [loading, setLoading] = useState(false);
   const [currentJobData, setCurrentJobData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageTotal, setPageTotal] = useState(0);
@@ -17,6 +18,7 @@ function HomePage() {
 
   useEffect(() => {
     const fetchJobData = async () => {
+      setLoading(true);
       try {
         const jobData = await api.getAllJobs(currentPage, q);
         if (jobData) {
@@ -26,6 +28,7 @@ function HomePage() {
       } catch (error) {
         console.log(`Error message: ${error}`);
       }
+      setLoading(false);
     };
 
     fetchJobData();
@@ -47,22 +50,38 @@ function HomePage() {
           justifyItems: "center",
         }}
       >
-        <Grid container rowSpacing={2} columnSpacing={2} mt={2}>
-          {currentJobData.map((job) => (
-            <Grid key={job.id} item xs={12} sm={6} md={4} lg={4}>
-              <JobCard job={job} />
+        {loading ? (
+          <div>Loading...</div>
+        ) : (
+          <>
+            <Grid container rowSpacing={2} columnSpacing={2} mt={2}>
+              {currentJobData.map((job) => (
+                <Grid
+                  container
+                  className="gridJobCard"
+                  mt={2}
+                  key={job.id}
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={4}
+                >
+                  <JobCard job={job} />
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
 
-        <Stack sx={{ mt: 2, mb: 2 }} spacing={2}>
-          <Pagination
-            className={"paginationButtonStyle"}
-            count={pageTotal}
-            page={currentPage}
-            onChange={handlePageChange}
-          />
-        </Stack>
+            <Stack mt={2} spacing={2}>
+              <Pagination
+                className={"paginationButtonStyle"}
+                count={pageTotal}
+                page={currentPage}
+                onChange={handlePageChange}
+              />
+            </Stack>
+          </>
+        )}
       </Container>
     </div>
   );

@@ -8,7 +8,7 @@ import {
   Dialog,
   Divider,
   Chip,
-  Stack,
+  Grid,
 } from "@mui/material";
 import { AiFillFire } from "react-icons/ai";
 import api from "../data/fetchData";
@@ -35,9 +35,25 @@ function JobDetailsDialog() {
     navigate(-1);
   };
 
+  const chipStyles = {
+    backgroundColor: "red",
+    color: "white",
+    fontSize: "10px",
+    ml: 1,
+    mt: 1,
+    mb: 1,
+  };
+
   return (
     <div>
-      <Dialog maxWidth="sm" open={true} onClose={handleCloseDialog}>
+      <Dialog
+        maxWidth="sm"
+        open={true}
+        onClose={handleCloseDialog}
+        PaperProps={{
+          sx: { backgroundImage: "none" },
+        }}
+      >
         <DialogTitle
           sx={{
             display: "flex",
@@ -59,44 +75,59 @@ function JobDetailsDialog() {
             flexDirection: "column",
           }}
         >
-          <Box sx={{ mt: 2, mb: 2 }}>
-            <Stack direction="row" spacing={1}>
-              Skills:
-              {jobData?.skills.slice(0, 4).map((skill) => (
+          <Box
+            container
+            spacing={2}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Grid container spacing={1}>
+              <Typography
+                sx={{ mt: 1 }}
+                gutterBottom
+                variant="body2"
+                component="div"
+              >
+                Skills:
+                {jobData?.skills.slice(0, 4).map((skill) => (
+                  <Chip
+                    sx={chipStyles}
+                    key={`${jobData?.id}-${skill}`}
+                    size="small"
+                    label={skill}
+                  />
+                ))}
+              </Typography>
+            </Grid>
+
+            <Grid container spacing={1}>
+              <Typography
+                sx={{ mt: 1 }}
+                gutterBottom
+                variant="body2"
+                component="div"
+              >
+                City:{" "}
                 <Chip
-                  key={`${jobData?.id}-${skill}`}
                   size="small"
-                  label={skill}
+                  label={jobData?.city}
                   sx={{
-                    backgroundColor: "red",
-                    color: "white",
-                    fontSize: "12px",
+                    backgroundColor: "rgb(255, 167, 38);",
+                    color: "black",
+                    fontSize: "10px",
                     ml: 1,
                   }}
                 />
-              ))}
-            </Stack>
-            <Typography
-              sx={{ mt: 1 }}
-              gutterBottom
-              variant="body2"
-              component="div"
-            >
-              City:{" "}
-              <Chip
-                size="small"
-                label={jobData?.city}
-                sx={{
-                  backgroundColor: "rgb(255, 167, 38);",
-                  color: "black",
-                  fontSize: "10px",
-                  ml: 1,
-                }}
-              />
-            </Typography>
-            <Typography sx={{ mt: 1 }} variant="body2">
-              {jobData?.description}
-            </Typography>
+              </Typography>
+            </Grid>
+
+            <Grid container spacing={1}>
+              <Typography sx={{ mt: 1 }} variant="body2">
+                {jobData?.description}
+              </Typography>
+            </Grid>
           </Box>
         </DialogContent>
       </Dialog>
